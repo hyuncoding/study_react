@@ -406,4 +406,36 @@
 ### JSX (JavaScript Syntax Extension)
 
 -   XML과 비슷한 JavaScript의 syntax extension이다.
--
+-   기본적으로 브라우저는 JSX 구문을 해석하지 못하지만, `Babel Compiler`를 통해  
+    JavaScript 구문으로 변환된다.
+-   이때, Babel은 단순한 변환을 넘어 최적화까지 수행하므로 속도가 빠르다.
+-   DOM(Document Object Model)과 밀접히 관련되어 있다.
+-   React는 Virtual DOM(VDOM)을 사용한다.
+-   VDOM은 원래 브라우저 DOM의 추상화된 버전이다.
+-   React 컴포넌트는 변동 사항이 있는 노드만 re-render한다.
+
+-   HTML과 달리 `class` 대신 `className`을, label태그에서 `for`대신 `htmlFor`을 사용한다.
+-   Javascript 표현식을 사용할 경우 중괄호({})로 묶어준다.
+-   태그들을 하나의 부모 태그로 묶어서 return해야 한다.
+-   이때 사용할 수 있는 것들 중 하나가 바로 `<></>`(fragment tag)이다.
+-   self-closing 태그를 사용하려면 반드시 `/`(슬래시)를 작성해야 한다.
+
+          <br> 대신 <br /> 작성
+
+-   UI 컴포넌트를 생성할 때 `React.createElement(Button, {}, '')`로도 만들 수 있지만,  
+    JSX 구문을 활용하여 `<Button></Button>` 형태로 만드는 것이 더 권장된다.
+
+### Event Handling
+
+-   React에서의 이벤트 시스템은 SyntheticEvent라고 불린다.
+-   onClick, onChange, onInput, ... 등 다양한 이벤트가 존재한다.
+
+### JSX에서 객체에 반복문 사용
+
+-   JavaScript의 객체에서는 for문으로 반복문을 수행할 수 없다.
+-   대신, `Object.Keys()`를 활용하여 반복문을 수행한다.
+-   ES2017부터는 `Object.values()`와 `Object.entries()`가 추가되었다.
+
+-   `Object.Keys()`는 프로퍼티 배열을 리턴한다.
+-   `Object.values()`는 프로퍼티별 값으로 이루어진 배열을 리턴한다.
+-   `Object.entries()`는 `[key, value]`로 이루어진 2차원 배열을 리턴한다.

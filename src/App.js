@@ -589,26 +589,84 @@
 // };
 // export default App;
 
-import { useQuery } from "react-query";
-import axios from "axios";
-function App() {
-    const { data, isLoading, error } = useQuery("speakers", () =>
-        axios("https://jsonplaceholder.typicode.com/users")
-    );
-    if (error) return <h4>Error: {error.message}, retry again</h4>;
-    if (isLoading) return <h4>...Loading data</h4>;
-    console.log(data);
-    return (
-        <>
-            <h1>Displaying Speakers Information</h1>
-            <ul>
-                {data.data.map((speaker) => (
-                    <li key={speaker.id}>
-                        {speaker.name}, <em> {speaker.email} </em>
-                    </li>
-                ))}
-            </ul>
-        </>
-    );
-}
+// import { useQuery } from "react-query";
+// import axios from "axios";
+// function App() {
+//     const { data, isLoading, error } = useQuery("speakers", () =>
+//         axios("https://jsonplaceholder.typicode.com/users")
+//     );
+//     if (error) return <h4>Error: {error.message}, retry again</h4>;
+//     if (isLoading) return <h4>...Loading data</h4>;
+//     console.log(data);
+//     return (
+//         <>
+//             <h1>Displaying Speakers Information</h1>
+//             <ul>
+//                 {data.data.map((speaker) => (
+//                     <li key={speaker.id}>
+//                         {speaker.name}, <em> {speaker.email} </em>
+//                     </li>
+//                 ))}
+//             </ul>
+//         </>
+//     );
+// }
+// export default App;
+
+// import React, { useState } from "react";
+// const App = () => {
+//     const [username, setUsername] = useState("");
+//     const [name, setName] = useState("");
+//     const [email, setEmail] = useState("");
+//     const handleSubmit = (e) => {
+//         e.preventDefault();
+//         alert(`Username:${username}, Name: ${name} and Email:
+//             ${email} submitted`);
+//     };
+//     return (
+//         <div>
+//             <form onSubmit={handleSubmit}>
+//                 <label htmlFor="username"> Username</label>
+//                 <br />
+//                 <input
+//                     type="text"
+//                     placeholder="Username"
+//                     onChange={(e) => setUsername(e.target.value)}
+//                 />
+//                 <br />
+//                 <label htmlFor="name">Name</label>
+//                 <br />
+//                 <input
+//                     type="text"
+//                     placeholder="Name"
+//                     onChange={(e) => setName(e.target.value)}
+//                 />
+//                 <br />
+//                 <label htmlFor="email"> Email</label>
+//                 <br />
+//                 <input
+//                     type="email"
+//                     placeholder="Email"
+//                     onChange={(e) => setEmail(e.target.value)}
+//                 />
+//                 <br />
+//                 <button>Submit</button>
+//             </form>
+//             <div>
+//                 <p>Username: {username}</p>
+//                 <p>Name: {name}</p>
+//                 <p>Email: {email}</p>
+//             </div>
+//         </div>
+//     );
+// };
+// export default App;
+
+import React from "react";
+import Speakers from "./pages/HomePage/HomePage";
+
+const App = () => {
+    return <HomePage />;
+};
+
 export default App;
