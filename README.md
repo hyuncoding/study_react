@@ -439,3 +439,181 @@
 -   `Object.Keys()`는 프로퍼티 배열을 리턴한다.
 -   `Object.values()`는 프로퍼티별 값으로 이루어진 배열을 리턴한다.
 -   `Object.entries()`는 `[key, value]`로 이루어진 2차원 배열을 리턴한다.
+
+### React Router
+
+-   클라이언트 단과 서버 단에서의 routing을 위한 라이브러리이다.
+-   데이터 fetching에도 사용할 수 있지만, 우선 컴포넌트 navigation에 사용하도록 한다.
+-   `useParams`와 `useNavigate` Hook을 통해 동적이고 프로그램적인 routing을 수행할 수 있다.
+
+-   여러 개의 어플리케이션 컴포넌트, URL, 페이지 및 리소스로/로부터 내/외부적으로 모두  
+    navigate할 수 있다.
+-   기본적으로 React는 페이지 라우팅을 자체 라이브러리에 포함하지 않는다.
+-   실제로 React의 원래 main goal은 single-page 웹 어플리케이션의 view를 디자인하는 것이다.
+-   하지만 실제 웹 어플리케이션은 여러 개의 view를 필요로 할 수밖에 없으므로,  
+    React Router와 같은 외부 라이브러리를 통해 컴포넌트 navigation을 수행해야 한다.
+
+-   오픈 소스 패키지로서, 컴포넌트 기반의 라우팅을 위해 사용된다.
+-   여러 개의 라우팅 feature로 구성되어 있다.
+
+#### Router
+
+-   React Router는 라우팅과 navigation을 가능하게 해주는 다양한 종류의 라우터를 제공한다.
+-   자주 사용되는 React Router의 라우터는 아래와 같다.
+
+-   `CreateBrowserRouter`
+
+    -   웹 프로젝트에서 브라우저 라우터를 생성하기 위해 사용되는 함수이다.
+    -   DOM History API를 활용하여, URL을 효율적으로 업데이트하고 히스토리 스택을 유지한다.
+    -   loaders, actions, fetchers 등 data API로의 접근을 가능하게 해준다.
+
+-   `RouterProvider`
+
+    -   라우터 인스턴스를 범위 내 렌더링된 모든 컴포넌트에 공급하기 위해 디자인되었다.
+    -   라우터가 어플리케이션의 navigation과 라우팅 요구를 효율적으로 관리하기 위해 사용될  
+        수 있도록 보장한다.
+    -   `router` prop을 매개변수로 요구하며, 이 prop이 RouterProvider 내에 렌더링되는  
+        컴포넌트에 분배되는 router 인스턴스로 기능한다.
+    -   모든 어플리케이션 컴포넌트가 라우터 인스턴스에 효율적으로 접근할 수 있도록  
+        RouterProvider는 컴포넌트 트리의 최상단에 위치시켜야 한다.
+
+-   `NativeRouter`
+    -   `React Native`에서 React Router를 실행하기 위해 필요한 인터페이스다.
+
+#### Components
+
+-   React Router에서의 컴포넌트는 유연하고 동적인 라우팅 시스템을 만들 수 있게 해준다.
+-   사용자가 UI와 상호작용함에 있어 navigation과 state를 관리하기 쉽게 도와준다.
+
+-   `Link`
+
+    -   사용자가 클릭 시 다른 컴포넌트 페이지로 이동할 수 있게 해 주는 컴포넌트 요소다.
+    -   `react-router-dom`은 `<Link>` 태그를 `<a>`태그로 href와 함께 렌더링한다.
+
+-   `NavLink`
+
+    -   `<Link>` 태그로 기능하지만, 메뉴에서 활성화된 요소를 나타낼 수 있는 기능도 있다.
+
+-   `Route`
+
+    -   현재 위치를 기준으로 UI를 렌더링하기 위해 사용된다.
+    -   props로 경로와 요소를 가지고 있다.
+    -   `Route` 컴포넌트의 경로가 현재 URL과 매칭되면, 사용자의 클릭에 기반하여  
+        요소를 렌더링한다.
+
+-   `Routes`
+    -   `Route`를 자식으로 가진다.
+    -   UI 컴포넌트의 경로가 변화하면, `Routes`는 모든 자식 `Route`를 체크하여 사용자의  
+        요청 또는 클릭한 경로와 가장 일치하는 요소를 결정하고 그 UI를 렌더링한다.
+
+#### Hooks
+
+-   `useLocation`
+
+    -   현재 위치에서의 변화를 트래킹해야할 때마다 side effect를 수행한다.
+    -   보통 현재 위치 객체를 리턴한다.
+
+-   `UseParams`
+
+    -   `<Route path>`와 매칭되는 현재 URL을 통해 브라우저로부터 파라미터를 받는다.
+    -   동적인 파라미터의 키-밸류 pair들로 이루어진 객체를 리턴한다.
+
+-   `UseNavigate`
+    -   리액트 어플리케이션에서 서로 다른 route 사이에 navigate하는 데 사용된다.
+    -   `history` 객체나 `Link` 컴포넌트 없이도 navigate할 수 있다.
+
+### Dynamic route
+
+-   변화하는 값을 나타내기 위해 placeholder를 사용하는 route를 가리킨다.
+-   이 placeholder는 다양한 동적 컨텐츠를 다루기 위해 사용될 수 있다.
+-   예를 들어, speakerId, productId, postId 등의 placeholder를 사용할 수 있다.
+-   dynamic route 앞에는 콜론(:)을 사용하는 것이 일반적이다.
+-   이 speakerId를 URL로부터 가져오기 위해 `useParams` Hook을 사용한다.
+
+### useNavigate
+
+-   기존에 사용하던 `useHistory`보다 더 직관적인 방식을 제공한다.
+-   버튼 클릭이나 form 제출 등 사용자의 액션에 따른 응답으로 navigation을 시작할 수 있다.
+-   URL을 직접적으로 수정하는 것 대신, `useNavigate`가 리턴하는 navigate 함수를 사용한다.
+
+### Form
+
+-   React에서는 form 컴포넌트에 두 가지 방식으로 접근할 수 있다.
+-   controlled와 uncontrolled form component이다.
+
+#### Controlled Form Components
+
+-   React 컴포넌트가 사용자 input의 내부 state를 유지한다.
+-   controlled form 컴포넌트의 이벤트 핸들러 함수는 SyntheticEvent 인스턴스를  
+    accept한다. 이는 `onChange`, `onInput`, `onInvalid`, `onReset`, `onSubmit` 등이다.
+-   이를 활용하여 form 데이터의 state를 제어할 수 있다.
+-   예를 들어, `onChange`는 컴포넌트 form의 state값에 변화가 있을 때 감지한다.
+-   이 변화는 타이핑일 수도 있고 form 인풋의 값을 대체하는 걸 수도 있다.
+
+-   React가 추천하는 방식이다.
+-   컴포넌트가 form의 행동을 tight하게 컨트롤하여, 사용자 및 개발자의 reactive 경험을 보장한다.
+-   form으로부터 즉각적인 피드백을 받을 수 있다.
+
+#### Uncontrolled Form Components
+
+-   native DOM이 사용자 입력의 state를 직접적으로 유지하고 저장한다.
+-   이는 form 요소들의 값을 DOM 안에 form 요소와의 reference와 함께 저장함으로써 가능하다.
+-   이는 HTML 요소가 자신의 내부 state를 유지하는 관습적인 방식이다.
+
+-   React 컴포넌트는 uncontrolled form 요소와 DOM 안의 기저에 존재하는 form 요소와의  
+    reference를 유지함으로써 상호작용한다.
+
+-   비록 controlled form이 더 권장되지만, uncontrolled form에도 장점이 있다.
+-   복잡한 form 어플리케이션에서 사용자 입력마다 form UI를 re-render하는 것은  
+    성능 측면에서 비효율적일 수 있다.  
+    uncontrolled form을 사용하면 병목현상을 막을 수 있다.
+-   form input으로 file 타입을 사용할 경우 더 적합한 방식이다.
+-   React가 아닌 프로젝트를 마이그레이션할 경우 uncontrolled form이 더 빠르다.
+
+### 유효성 검사
+
+-   Data type: form의 각 필드마다 적절한 type을 입력했는지 검사해야 한다.
+-   Consistency: 정규 표현식 등으로 비밀번호의 길이, 특수문자 포함 여부 등을 검사한다.
+-   Data format: 날짜를 입력받을 경우 형식에 맞게 입력했는지 검사해야 한다.
+-   Range and constraint: 특정 범위나 특정 제약조건을 따르도록 해야 한다. 이때에도  
+    정규 표현식을 사용할 수 있다.
+
+-   입력 시, 또는 제출(submit) 시 검사한다.
+
+### Software Testing
+
+#### Unit Testing
+
+-   가장 작은 코드 조각이나 소프트웨어 또는 어플리케이션 개발의 단위(unit)를 테스트한다.
+-   planning -> case scripting -> testing 의 3단계 순서로 진행된다.
+
+#### Integration Testing
+
+-   코드의 개별 단위가 그룹으로 결합되고 테스트된다.
+-   서로 간의 효율적인 상호작용을 위한 테스트이다.
+
+#### Performance Testing
+
+-   어플리케이션의 속도와 효율성이 주어진 workload에 대해 테스트된다.
+-   조기 병목현상을 식별하기 위해 사용된다.
+
+#### Usability Testing
+
+-   의도된 사용자가 직접 사용하여 어플리케이션 디자인에 대한 평가를 진행하고 피드백을 제공한다.
+
+#### Acceptance Testing
+
+-   클라이언트의 만족도를 검사한다.
+-   고객의 요구사항을 기준으로 평가한다.
+
+#### Regression Testing
+
+-   새로운 기능의 도입으로 인한 코드의 변화가 이전에 테스트한 동작 기능성을 해치지 않는지 검사한다.
+-   코드를 수정함으로써 생길 수 있는 오류나 의도치 않은 부작용을 방지할 수 있다.
+-   모든 테스트 케이스를 다시 실행하여 새로운 버그가 없도록 한다.
+
+### Jest
+
+-   오픈 소스 Javascript testing framework이다.
+-   실제로 React 개발팀에서 추천하는 테스트 도구이다.
+-   `Node.js` test runner로서, Node 환경에서 수행한다.
