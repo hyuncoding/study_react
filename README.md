@@ -725,3 +725,190 @@
     없도록 확실히 해야 한다.
 -   수작업으로도 가능하지만, Jest, RTL, Enzyme나 React testing utilities 등을 통해  
     자동으로도 가능하다.
+
+## Flask
+
+### SQLAlchemy
+
+-   3개의 vital layer로 구성된다.
+-   engine, dialect, connection pool이다.
+
+### SQLAlchemy Engine
+
+-   데이터베이스와 연결하고 상호작용하기 전에 먼저 engine을 만들어야 한다.
+-   가장 낮은 레이어이다.
+
+### Connection pools
+
+-   `create_engine()` 메소드를 사용하면 보통 connection pool 객체가 생성되고,  
+    이후 데이터베이스 트랜잭션에 재사용된다.
+-   `create_engine()`에서 파라미터로 pool의 성능을 최적화할 수 있다.
+-   `pool_size`: pool이 handle할 수 있는 connection의 개수
+-   `max_overflow`: pool이 지원하는 overflow connection의 개수
+-   `pool_recycle`: pool의 connection 지속 시간을 초 단위로 설정 가능
+-   `pool_timeout`: pool로부터 connection이 연결되는 것을 중단하기 전까지 기다릴 시간(초)
+
+### API
+
+-   Application Programming Interface의 약자이다.
+-   주된 목적은 규칙, 방법, 프로토콜을 기반으로 서로 다른 시스템 간의 소통을 용이하게 하는 것이다.
+-   private API와 public API가 있다.
+-   private API는 내부 API라고도 불리며, 조직 내에서 매우 중요한 조직 데이터에 접근하기 위한 오픈 아키텍처 인터페이스이다.
+-   public API는 조직 외부의 개발자가 공개된 조직 내 데이터나 서비스에 접근하여 개발에 사용할 수 있도록 하는 표준화된 인터페이스이다.
+-   또 다른 형태의 API에는 Simple Object Access Protocol(SOAP), JavaScript Object Notation-Remote Procedure Call(JSON-RPC), Extensible Markup Language-Remote Procedure Call(XML-RPC), Representational State Transfer(REST) 등이 있다.
+-   endpoint와 payload는 API 컴포넌트의 가장 중요한 요소다.
+-   endpoint는 잘 정의된 route나 URL을 통해 서버의 리소스에 접근하는 것을 용이하게 해준다.
+-   payload는 요청이나 응답과 함께 데이터를 보낼 수 있도록 해 준다.
+
+### API Endpoint
+
+-   RESTful endpoint URI를 위한 규칙 중 대표적인 3가지는 아래와 같다.
+
+    -   1. 명사를 사용한다.
+    -   2. 복수명사를 사용한다.
+    -   3. 'collection/resource/collection' 규칙에 따른다.
+
+### Payload
+
+-   다양한 웹 어플리케이션 간의 정보 교환 시 관심을 두는 데이터를 payload라고 한다.
+-   클라이언트-서버 커뮤니케이션에서 HTTP 요청과 응답의 body이다.
+-   API 생태계에서 클라이언트가 요청을 보낼 때 요청의 body는 데이터이며, 이 데이터는 header/overhead와 payload로 구성된다.
+-   header는 데이터의 source 또는 destination을 설명한다.
+-   payload는 JSON 또는 XML 형식을 가지며 {}를 통해 인식된다.
+
+          POST /venues HTTP/1.1
+          Host: example.com
+          Accept: application/json
+          Content-Type: application/json
+          Content-Length: 10
+          {
+              "id": 3,
+              "name": "Conference Hall"
+          }
+
+
+          HTTP/1.1 200 OK
+          Content-Type: application/json
+          Content-Length: 10
+          {
+              "responseType": "OK",
+              "data": {
+                  "id": 3,
+                  "name": "Conference Hall"
+              }
+          }
+
+-   OK와 {} 안의 내용이 payload이다.
+
+          HTTP/1.1 404 Not found
+          Content-Type: application/json
+          Content-Length: 0
+          {
+              "responseType": "Failed",
+              "message": "Not found"
+          }
+
+### HTTP Request/Response
+
+#### Request
+
+-   모든 HTTP 요청은 request line으로 시작하며, 이는 HTTP 메소드 종류와 요청하는 리소스, 그리고 HTTP 프로토콜 버전을 나타낸다.
+-   GET: 클라이언트가 서버에 리소스 요청
+-   POST: 클라이언트가 서버 리소스에 데이터 제출
+-   PUT: 클라이언트가 서버 리소스 수정
+-   DELETE: 클라이언트가 서버 리소스 삭제
+
+#### Response Code
+
+-   1XX: Informational
+
+    -   100: interim response. 클라이언트에게 요청을 계속하거나 이미 진행됐을 경우 응답을 무시하라고 알려주는 코드
+
+-   2XX: Successful
+
+    -   200: 서버가 성공적으로 요청을 처리했음을 나타냄 (OK)
+    -   201: 서버가 성공적으로 요청을 처리했으며 리소스가 생성됐음을 나타냄 (Created)
+    -   202: 요청을 받았으나 처리가 아직 완료되지 않은 상태를 나타냄 (Accepted)
+    -   204: 서버가 성공적으로 요청을 처리했지만 return 내용이 없음을 나타냄 (No content)
+
+-   3XX: Redirection
+
+    -   301: 요청과 이후의 모든 요청이 response header의 새로운 로케이션으로 보내져야 함을 나타냄 (Moved Permanently)
+    -   302: 요청이 일시적으로 response header의 새로운 로케이션으로 보내져야 함을 나타냄 (Found)
+
+-   4XX: Client Error
+
+    -   400: 서버가 클라이언트의 에러에 의해 요청을 처리할 수 없음을 나타냄 (Bad Request)
+    -   401: 요청을 보내는 클라이언트가 권한이 없으며 인증이 필요함을 나타냄 (Unauthorized)
+    -   403: 요청을 보내는 클라이언트가 접근 권한이 없음을 나타냄 (Forbidden)
+    -   404: 서버가 요청된 리소스를 찾지 못했음을 나타냄 (Not Found)
+    -   405: 서버가 메소드를 알고 있지만 타겟이 되는 리소스가 해당 메소드를 지원하지 않음을 나타냄 (Method Not Allowed)
+
+-   5XX: Server Error
+    -   500: 서버가 요청을 처리하는 도중 예기치 못한 오류를 맞닥뜨렸음을 나타냄 (Internal Server Error)
+    -   502: 요청을 받는 게이트웨이로 기능하던 중 서버가 어플리케이션 서버로부터 잘못된 응답을 받았음을 나타냄 (Bad Gateway)
+    -   503: 서버가 요청을 처리할 수 없음을 나타냄 (Service Unavailable)
+
+### SQLAlchemy 관련
+
+-   ORM 관련 메소드를 사용할 때 (클래스명).query.(메소드명)() 으로 사용할 수 있다.
+-   이때, `filter_by()`의 경우 키워드 인자로 사용한다. (ex. `User.query.filter_by(id=id)`) 간단한 조건을 작성할 때 유용하다.
+-   반면 `filter()`의 경우 SQL 문법을 사용한다. (ex. `User.query.filter(User.id == id)`) 복잡한 조건을 작성할 때 유용하다.
+
+### Authentication
+
+-   사용자의 identity를 검증하는 과정이다.
+-   사용자의 username과 password를 제공하도록 요구하는 방식으로 수행되며, 오직 인증된 사용자만이 민감한 정보에 접근하고 특정 행동을 할 수 있도록 하는 것이 목적이다.
+-   password-based authentication, Multi-factor authentication(MFA), Token-based Authentication, Biometric authentication 등이 있다.
+-   인증 방식을 결정할 때에는 level of security required와 UX 모두를 고려해야 한다.
+
+### 비밀번호 암호화(Hashing Password)
+
+-   Flask-Bcrypt 라이브러리가 대표적으로 사용된다.
+
+          from flask import Flask, render_template, request
+          from flask_bcrypt import Bcrypt
+
+          app = Flask(__name__)
+          bcrypt = Bcrypt()
+
+          @app.route("/", methods=["GET", "POST])
+          def index():
+              if request.method == "POST":
+                  password = request.form.get("password")
+                  password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+                  return render_template("index.html", password_hash=password_hash)
+              return render_template("index.html")
+
+          @app.route("/login", methods=["POST"])
+          def login():
+              password = request.form.get("password")
+              password_hash = request.form.get("password_hash")
+
+              if bcrypt.check_password_hash(password_hash, password):
+                  return "Login successful!"
+              return "Invalid password."
+
+### Flask에서의 OAuth
+
+-   Flask-OAuthlib 등의 라이브러리를 통해 구현할 수 있다.
+-   OAuth 1.0a와 OAuth2.0 모두 지원한다.
+
+### Flask에서의 Session
+
+-   `flask-session`을 별도로 설치해야 한다.
+
+          from flask import Flask, session
+          from flask_session import Session
+
+          app = Flask(__name__)
+          app.config["SESSION_TYPE"] = "filesystem"
+          Session(app)
+
+          @app.route("/api/v1/counters")
+          def visit_counter():
+              session["counter"] = session.get("counter", 0) + 1
+              return "Hey, you have visited this page: {}".format(session["counter"])
+
+-   session에 담긴 정보를 삭제할 때에는 `session.pop("키 이름", None)` 을 사용한다.
+-   `[키이름] in session` 으로 세션 안에 해당 키에 대한 정보가 담겨 있는지 확인할 수 있다.
