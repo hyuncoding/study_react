@@ -912,3 +912,129 @@
 
 -   session에 담긴 정보를 삭제할 때에는 `session.pop("키 이름", None)` 을 사용한다.
 -   `[키이름] in session` 으로 세션 안에 해당 키에 대한 정보가 담겨 있는지 확인할 수 있다.
+
+### Error Handling
+
+-   `logging`을 import하여 `error.log` 파일에 오류 발생 시 자동으로 오류 내용을 기록하도록 할 수 있다.
+-   혹은 `boto3` 라이브러리와 같은 third-party logging service를 활용할 수 있다.
+-   이러한 라이브러리를 사용하면 중앙화된 로그 관리나 실시간 로그 검색 및 경고 기능을 수행할 수 있다.
+-   `smtplib`을 활용하여 오류 발생 시 관리자에게 자동으로 이메일이 전송되도록 설계할 수 있다.
+
+### Modular Architecture
+
+-   모듈화된 구조의 대표적인 이점은 아래와 같다.
+-   scalability(확장성)
+-   reusability(재사용성)
+-   maintainability(정비성)
+-   flexibility(유연성)
+-   improved collaboration
+-   better performance
+
+### Flask Blueprints
+
+-   flask 어플리케이션을 더 작고 재사용 가능한 컴포넌트로 조직화하는 방법이다.
+-   blueprints는 본질적으로 route, template, static file의 집합이다.
+-   flask blueprints를 사용할 때 대표적인 이점은 아래와 같다.
+-   modular design
+-   reusability
+-   flexibility
+-   template inheritance: blueprints는 메인 어플리케이션에서 템플릿을 상속받을 수 있으므로 템플릿을 여러 blueprints에서 재사용할 수 있다.
+-   namespaces: blueprints는 자신만의 view function을 정의할 수 있으며 blueprint 안에서 namespace된다.
+-   별도의 파이썬 파일에 blueprint를 정의하며, route, template 및 blueprint에 맞는 특정 필요 로직들을 정의한다.
+
+### Flask Unit Testing
+
+-   FIRST: Fast, Independent, Repeatable, Self-Validating, and Timely
+-   RITE: Readable, Isolated, Thorough, and Explicit
+-   3A: Arrange, Act, Assert
+
+-   Fast: `pytest_mock` 플러그인 등을 활용하여 external dependencies도 mocking을 통해 빠르게 테스트할 수 있다.
+-   Independent: 각 단위 테스트는 서로 독립적으로 동작함으로써 서로의 테스트 결과에 영향을 주어서는 안 된다.
+-   Repeatable: 검사할 때마다 항상 같은 결과가 나와야 한다. 즉, random number generator 등이나 system time에 의존하면 안 된다.
+-   Self-checking: 인간의 개입 없이도 결과를 체크하고 실패 시 보고할 수 있도록 디자인되어야 한다. 즉, 예상 결과와 실제 테스트 결과를 비교하는 assertion을 포함해야 한다.
+-   Timely: 간결하게 작성되어야 하며, 이상적으로는 검사될 코드가 완성되기 전에 먼저 디자인되어야 한다. 이는 개발 과정에 포함되어야 한다는 뜻이다.
+
+-   Reproducible: 다른 시스템이나 다른 환경에서도 테스트가 재생산될 수 있어야 한다.
+-   Isolated: 각 단위 테스트는 서로 독립적이어야 하며 어떠한 state도 공유해서는 안 된다.
+-   Thorough: 시스템의 모든 측면을 검사해야 하며, edge case나 error condition도 포함해야 한다. 즉, 모든 가능한 input과 output을 고려하기 위해 노력해야 한다.
+-   Extensible: 확장하기 쉬워야 하며 시스템이 발전하더라도 유지되어야 한다.
+
+-   Arrange: 객체 초기화, 변수 설정 등 필요한 액션을 통해 테스트 조건을 설정하는 과정이다.
+-   Act: 테스트 대상 액션을 취하거나 메소드를 호출하며, 이는 함수에 매개변수를 전달하거나 객체 메소드를 호출하거나 API 엔드포인트에 요청을 보내는 것도 포함할 수 있다.
+-   Assert: 액션의 결과가 예상 결과와 일치함을 검증하는 과정이다. 함수의 리턴값을 체크하거나 메소드 호출 전후의 객체 상태를 비교하거나 API 엔드포인트가 올바른 응답 status code와 데이터를 리턴하는지 확인하는 과정이 포함되곤 한다.
+
+### Pytest
+
+-   오픈소스 테스트 프레임워크로, 간결하고 가독성 좋은 테스트를 작성하고 실행하는 과정을 단순화해준다.
+-   `-test`를 찾음으로써 모든 테스트를 자동으로 찾고 실행할 수 있다.
+-   테스트 개수와 각 테스트별 소요 시간, 모든 실패 및 에러 등을 결과에 포함한다.
+-   pip 를 통해 별도로 설치해야 한다.
+
+        def test_function_name():
+            # Arrange: set up the necessary test data or environment
+            # Act: execute the code being tested
+            result = some_function()
+            # Assert: check that the expected behavior is observed
+            assert result == expected_result
+
+-   pytest는 `assert x == y`, `assert x != y`, `assert x in y` 등 다양한 assertion을 지원한다.
+
+#### Fixture
+
+-   테스트가 실행되기 위해 필요한, 정의된 상태나 데이터의 집합이다.
+-   본질적으로, 일관된 리소스(데이터, 설정, 객체 등)를 관리하고 다른 테스트 케이스에 제공하는 데 도움이 되는 함수들이다.
+-   안정적이고 통제된 테스팅 환경을 만드는 데 도움이 된다.
+-   setup 메소드는 테스트가 수행되기 전 환경을 세팅하며, teardown 메소드는 테스트 종료 후 setup 과정에서 설정된 리소스들을 청소한다.
+
+          class FlaskTestCase:
+              def setup(self):
+                  self.app = create_app()
+                  self.client = app.test_client()
+
+              def teardown(self):
+                  self.app = None
+                  self.client = None
+
+              def test_index_page(self):
+                  response = self.client.get("/")
+                  assert response.status_code == 200
+                  assert response.content = b"Bizza Web Application"
+
+-   `pytest`에서는 `@pytest.fixture()` 데코레이터를 통해 setup 및 teardown 메소드를 구현할 수 있다.
+
+          import pytest
+
+          @pytest.fixture()
+          def app():
+              app = create_app()
+              return app
+
+          @pytest.fixture()
+          def client(app):
+              client = app.test_client()
+              return client
+
+-   이를 통해 fixture를 재사용할 수 있도록 설계할 수 있다.
+
+#### Parameterizing
+
+-   pytest에서는 테스트들을 파라미터화할 수 있으며, 이를 통해 다양한 종류의 input 파라미터에 따라 실행될 수 있는 하나의 테스트함수를 만들 수 있다.
+-   `@pytest.mark.parameterize` 데코레이터를 사용하며, 파라미터의 이름과, 테스트에 넘길 다양한 파라미터들을 담은 리스트(혹은 튜플)를, 즉 2가지를 전달한다.
+
+          import pytest
+
+          def add(a, b):
+              return a + b
+
+          @pytest.mark.parametrize("a, b, expected_result", [
+                                                              (1, 2, 3)
+                                                              (10, 20, 30),
+                                                              (0, 0, 0),
+                                                              (-1, 1, 0), ids=["1+2=3", "10+20=30", "0+0=0", "-1+1=0"]])
+          def test_addition(a, b, expected_result):
+              assert add(a, b) == expected_result
+
+#### Mocking external dependencies in pytest
+
+-   API나 데이터베이스 등 외부 의존성의 simulated version을 포함하는 테스트 기법이다.
+-   `unittest.mock`이나 `pytest-mock` 등 mocking 프레임워크를 사용해야 한다.
