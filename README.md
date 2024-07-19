@@ -1038,3 +1038,42 @@
 
 -   API나 데이터베이스 등 외부 의존성의 simulated version을 포함하는 테스트 기법이다.
 -   `unittest.mock`이나 `pytest-mock` 등 mocking 프레임워크를 사용해야 한다.
+
+### Containerization
+
+-   가상 머신(Virtual Machine, VM)과 비슷한 기능을 하지만, 가상 머신이 host operating system의 완전한 copy를 필요로 하는 반면 container는 어플리케이션 작동을 위한 최소한의 런타임 컴포넌트만 필요로 한다.
+-   어플리케이션과 필요한 dependencies를 패키징하는 표준화된 방법을 제공한다.
+-   서로 다른 컴퓨팅 환경으로 이동이 가능하여 같은 컨테이너 런타임이라면 어떤 시스템으로든 배포가 가능하다.
+-   컨테이너들은 같은 operating system 커널을 공유하여, 전통적인 가상화보다 더 효율적으로 시스템 자원을 사용한다.
+-   어플리케이션과 수반되는 dependencies들 간의 isolation을 제공한다.
+-   Kubernetes, Apache Mesos, LXC/LXD, CoreOS rkt, OpenVZ, AWS Elastic Container Service, Google Kubernetes Engine 등이 있다.
+-   그 중에서도 Docker가 가장 흔히 사용되고 있다.
+
+### Docker
+
+-   프로그램들과 모든 필요한 의존성들을 `Docker Image`에 패키징할 수 있다.
+-   `Docker Image`는 읽기 전용 템플릿으로, Docker 컨테이너를 만들기 위한 instruction을 포함한다.
+-   또한 어플리케이션을 실행하기 위한 코드, 런타임, 라이브러리, 의존성 및 설정들을 포함한다.
+-   Docker 컨테이너는 Docker image의 **_실행 가능한 인스턴스_**이다.
+-   Docker image는 `Dockerfile`을 통해 생성할 수 있다.
+-   `Dockerfile`은 Docker image를 build하기 위한 instruction을 포함하는 텍스트 파일이다.
+-   base image를 특정하며, 필수 패키지와 파일을 추가하고, 어플리케이션을 위한 설정 옵션을 세팅한다.
+-   `Docker Compose`는 멀티 컨테이너 Docker 어플리케이션을 정의하고 실행하기 위한 도구이다.
+-   `Docker Compose`는 `YAML`파일을 통해 어플리케이션 실행을 위한 서비스, 네트워크, 볼륨을 정의한다.
+
+#### 주요 명령어
+
+-   `docker build -t [docker안에서 사용할 컨테이너 directory명]`
+-   `docker run -d -p [포트번호]:[포트번호] [컨테이너 directory명]`: -d는 detached mode로 실행할 때 사용한다.
+-   `docker stop [컨테이너 id]`
+-   `docker container prune`: 사용되지 않는(실행이 종료되었거나 중지된 상태의) 컨테이너를 모두 삭제한다. -f 또는 --force를 붙일 경우 확인 메시지 생략 후 바로 삭제한다.
+
+### Docker Compose
+
+-   multi-container Docker 어플리케이션을 정의하고 실행하는 도구이다.
+-   컨테이너의 집합과 서로 간의 관계를 정의하는 도구를 제공하며, 하나의 커맨드로 컨테이너들을 한 번에 실행할 수 있다.
+-   YAML file: 어플리케이션 컨테이너들의 설정을 정의하는 데 사용된다. 사용할 image, expose할 포트, 환경 변수 및 기타 필요 설정들을 특정한다.
+-   Services: 각 컨테이너는 YAML 파일에서 service로 정의된다. 서비스들은 서로에게 의존할 수 있으며 함께 시작되거나 종료될 수 있다.
+-   Networks: Docker Compose는 어플리케이션을 위한 네트워크를 생성하여 컨테이너가 서로 소통할 수 있도록 한다.
+-   Volumes: 컨테이너 실행 간에 데이터를 유지하기 위해 사용된다.
+-   Commands: 어플리케이션을 시작, 종료, 관리하기 위한 명령어 집합을 제공한다.
